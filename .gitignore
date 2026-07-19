@@ -1,13 +1,25 @@
+# Virtual Environment
 venv/
 venv.zip
 
+# Python
 __pycache__/
 *.pyc
 
+# Database
 instance/
 *.db
 
+# Uploaded Files
 static/uploads/
 static/submissions/
+static/videos/
 
+# Environment Variables
 .env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
