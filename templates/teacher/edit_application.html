@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Edit Application</h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label for="student_id" class="form-label">Student</label>
+      <select name="student_id" id="student_id" class="form-control" required>
+        <option value="{{ application.student.id }}">{{ application.student.name }}</option>
+        {% for s in Student.query.all() %}
+          {% if s.id != application.student.id %}
+            <option value="{{ s.id }}">{{ s.name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Hidden placement_id to avoid IntegrityError -->
+    <input type="hidden" name="placement_id" value="{{ application.placement_id }}">
+
+    <button type="submit" class="btn btn-primary">Update Application</button>
+    <a href="{{ url_for('placement_applications', placement_id=application.placement_id) }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

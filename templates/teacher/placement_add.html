@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ placement and 'Edit Placement' or 'Add Placement' }}</h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label>Company</label>
+      <input type="text" name="company" class="form-control" value="{{ placement.company if placement else '' }}" required>
+    </div>
+    <div class="mb-3">
+      <label>Role</label>
+      <input type="text" name="role" class="form-control" value="{{ placement.role if placement else '' }}" required>
+    </div>
+    <div class="mb-3">
+      <label>Package</label>
+      <input type="text" name="package" class="form-control" value="{{ placement.package if placement else '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">{{ placement and 'Update' or 'Add' }}</button>
+    <a href="{{ url_for('teacher_placement_list') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

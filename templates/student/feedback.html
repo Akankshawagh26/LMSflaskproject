@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <h2>Submit Feedback</h2>
+    <form method="POST" class="card p-3">
+        <label>Subject / Course</label>
+        <input type="text" name="subject" class="form-control mb-2" placeholder="Enter subject" required>
+
+        <label>Rating</label>
+        <select name="rating" class="form-control mb-2" required>
+            <option value="">Select rating</option>
+            <option value="1">1 - Poor</option>
+            <option value="2">2 - Fair</option>
+            <option value="3">3 - Good</option>
+            <option value="4">4 - Very Good</option>
+            <option value="5">5 - Excellent</option>
+        </select>
+
+        <label>Comments</label>
+        <textarea name="comments" class="form-control mb-3" rows="3" placeholder="Optional"></textarea>
+
+        <button class="btn btn-primary">Submit Feedback</button>
+    </form>
+</div>
+{% endblock %}

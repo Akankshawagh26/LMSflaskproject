@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <h2>Student Feedbacks</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Subject</th>
+                <th>Rating</th>
+                <th>Comments</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fb in feedbacks %}
+            <tr>
+                <td>{{ fb.student.name }}</td>
+                <td>{{ fb.subject }}</td>
+                <td>{{ fb.rating }}</td>
+                <td>{{ fb.comments }}</td>
+                <td>{{ fb.created_at.strftime('%d-%m-%Y %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

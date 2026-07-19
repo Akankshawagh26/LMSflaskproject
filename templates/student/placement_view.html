@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Available Placements</h2>
+
+    {% if placements %}
+        <table class="table table-bordered mt-3">
+            <thead class="thead-light">
+                <tr>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Package</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for placement in placements %}
+                    <tr>
+                        <td>{{ placement.company }}</td>
+                        <td>{{ placement.role }}</td>
+                        <td>{{ placement.package or 'N/A' }}</td>
+                        <td>
+                            {% if placement.id in applied_ids %}
+                                <button class="btn btn-secondary btn-sm" disabled>Already Applied</button>
+                            {% else %}
+                                <form action="{{ url_for('student_apply_placement', placement_id=placement.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No placements available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

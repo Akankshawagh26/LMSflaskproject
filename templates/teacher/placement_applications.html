@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Applications for {{ placement.company }} - {{ placement.role }}</h2>
+
+  <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date Applied</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for app in applications %}
+        <tr>
+            <td>{{ app.student.name }}</td>
+            <td>{{ app.student.email }}</td>
+            <td>{{ app.date_applied.strftime('%d-%m-%Y') }}</td>
+
+            <td>
+                <!-- Edit -->
+                <a href="{{ url_for('teacher_edit_placement', placement_id=placement.id) }}" class="btn btn-sm btn-primary">Edit</a>
+
+
+                <!-- Delete -->
+                <form action="{{ url_for('teacher_delete_placement', placement_id=placement.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+  </table>
+
+</div>
+{% endblock %}

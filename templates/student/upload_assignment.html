@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h3 class="mb-3 text-primary">Submit Assignment: {{ assignment.title }}</h3>
+
+  <form method="POST" action="{{ url_for('student_upload_assignment', assignment_id=assignment.id) }}" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">Select File</label>
+      <input type="file" name="file" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Submit Assignment</button>
+  </form>
+</div>
+{% endblock %}

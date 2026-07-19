@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Submissions for "{{ assignment.title }}"</h3>
+
+    {% if submissions %}
+    <form method="POST">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Submission File</th>
+                    <th>Marks / {{ assignment.total_marks }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sub in submissions %}
+                <tr>
+                    <!-- ✅ Use Student.name directly -->
+                    <td>
+                      {{ sub.student.name if sub.student else "Unknown" }}
+                    </td>
+                    
+                    <td>
+                        {% if sub.submission_file %}
+                        <a href="{{ url_for('serve_uploaded_file', filename=sub.submission_file) }}" target="_blank">
+                            {{ sub.submission_file }}
+                        </a>
+                        {% else %}
+                        No file
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        <input type="number" name="mark_{{ sub.id }}" 
+                               value="{{ sub.marks_obtained or 0 }}"
+                               min="0" max="{{ assignment.total_marks }}" 
+                               class="form-control" style="width:100px;">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Save Marks</button>
+    </form>
+    {% else %}
+    <p>No submissions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

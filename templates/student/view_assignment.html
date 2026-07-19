@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">📘 Assignment Details</h2>
+  <div class="card shadow p-4">
+    <p><strong>ID:</strong> {{ assignment.id }}</p>
+    <p><strong>Title:</strong> {{ assignment.title }}</p>
+    <p><strong>Uploaded By:</strong> {{ assignment.submitted_by or 'Unknown' }}</p>
+
+    {% if assignment.file_name %}
+      <p><strong>File:</strong> 
+        <a href="{{ url_for('uploaded_file', filename=assignment.file_name) }}" target="_blank">
+          {{ assignment.file_name }}
+        </a>
+      </p>
+    {% else %}
+      <p><strong>File:</strong> No file uploaded.</p>
+    {% endif %}
+  </div>
+
+  <a href="{{ url_for('student_assignments') }}" class="btn btn-secondary mt-3">⬅ Back to Assignments</a>
+</div>
+{% endblock %}

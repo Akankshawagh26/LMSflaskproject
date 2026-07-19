@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+  <h2 class="fw-bold mb-4">👋 Welcome, {{ current_user.username }}!</h2>
+
+  <div class="row g-4 mb-4">
+    <!-- Total Assignments -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 p-3 rounded-4">
+        <h5 class="text-primary">📚 Total Assignments</h5>
+        <h3 class="fw-bold">{{ total_assignments }}</h3>
+      </div>
+    </div>
+
+    <!-- Submitted -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 p-3 rounded-4">
+        <h5 class="text-warning">📥 Submitted</h5>
+        <h3 class="fw-bold">{{ submitted_assignments }}</h3>
+      </div>
+    </div>
+
+    <!-- Completion Rate -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0 p-3 rounded-4">
+        <h5 class="text-success">🎯 Completion Rate</h5>
+        <h3 class="fw-bold">{{ completion_rate }}%</h3>
+
+        {% set progress_color = '' %}
+        {% if completion_rate < 50 %}
+            {% set progress_color = 'bg-danger' %}
+        {% elif completion_rate < 80 %}
+            {% set progress_color = 'bg-warning' %}
+        {% else %}
+            {% set progress_color = 'bg-success' %}
+        {% endif %}
+
+<style>
+  .progress-bar-75 { width: 75%; }
+</style>
+
+<div class="progress">
+  <div class="progress-bar {{ progress_color }} progress-bar-{{ completion_rate|int }}"></div>
+</div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Latest Lectures -->
+  <h4 class="mt-4">🎥 Latest Lectures</h4>
+  <div class="row g-4">
+    {% for lec in latest_lectures %}
+    <div class="col-md-4">
+      <div class="card shadow border-0 rounded-4 overflow-hidden">
+        <video class="w-100" height="200" controls>
+          <source src="{{ url_for('static', filename='uploads/' ~ lec.filename) }}" type="video/mp4">
+        </video>
+        <div class="p-3">
+          <h6 class="fw-bold">{{ lec.title }}</h6>
+          <p class="text-muted m-0">Uploaded by: {{ lec.uploader.name }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Quick Links -->
+  <h4 class="mt-5 mb-3">⚡ Quick Links</h4>
+  <div class="row g-4">
+    <div class="col-md-3">
+      <a href="{{ url_for('student_assignments') }}" class="text-decoration-none">
+        <div class="card shadow p-3 text-center rounded-4">
+          <h2>📝</h2>
+          <h6>Assignments</h6>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="{{ url_for('student_videos') }}" class="text-decoration-none">
+        <div class="card shadow p-3 text-center rounded-4">
+          <h2>🎥</h2>
+          <h6>Lectures</h6>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="{{ url_for('student_resources') }}" class="text-decoration-none">
+        <div class="card shadow p-3 text-center rounded-4">
+          <h2>📂</h2>
+          <h6>Resources</h6>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3">
+      <a href="{{ url_for('student_view_placements') }}" class="text-decoration-none">
+        <div class="card shadow p-3 text-center rounded-4">
+          <h2>💼</h2>
+          <h6>Placements</h6>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

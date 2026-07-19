@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Lectures</h2>
+
+{% if lectures %}
+  {% for lec in lectures %}
+    <div class="mb-4">
+      <h5>{{ lec.title }}</h5>
+      <video width="100%" controls> 
+        <source src="{{ url_for('static', filename='uploads/' ~ lec.filename) }}" style="width:80%; height:40%;" controls type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p>Uploaded by: {{ lec.uploader.name }}</p>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No videos uploaded yet.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Placement</h2>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label>Company</label>
+            <input type="text" name="company" class="form-control" value="{{ placement.company }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Role</label>
+            <input type="text" name="role" class="form-control" value="{{ placement.role }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Package</label>
+            <input type="text" name="package" class="form-control" value="{{ placement.package }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ url_for('teacher_placement_list') }}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

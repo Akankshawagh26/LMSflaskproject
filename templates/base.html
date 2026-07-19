@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* ============================
+       THEME VARIABLES
+    ============================ */
+    :root {
+    --bg-color: #f8fafc;
+    --text-color: #0f172a;
+    --sidebar-bg: #1e293b;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #3b82f6;
+    --logo-url: url('/static/images/light-logo1.png');
+}
+
+body.dark-mode {
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --sidebar-bg: #111827;
+    --sidebar-text: #e2e8f0;
+    --sidebar-hover: #2563eb;
+    --logo-url: url('/static/images/dark-logo.png');
+}
+
+
+
+
+
+
+    /* ============================
+       GLOBAL
+    ============================ */
+    body {
+      margin: 0;
+      display: flex;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: 0.3s;
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    /* ============================
+       SIDEBAR
+    ============================ */
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      padding: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      overflow-y: auto;
+      transition: 0.3s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+
+      /* smooth slide animation */
+      transform: translateX(0);
+    }
+
+    /* LOGO AREA */
+    .logo-box {
+      width: 100%;
+      height: 80px;
+      background-image: var(--logo-url);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-bottom: 20px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    /* Sidebar links */
+    .sidebar a {
+      display: block;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      padding: 12px 15px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: 0.2s ease;
+      opacity: 0;
+      animation: fadeSlide 0.4s forwards;
+    }
+    .sidebar a:nth-child(2) { animation-delay: 0.1s; }
+    .sidebar a:nth-child(3) { animation-delay: 0.15s; }
+    .sidebar a:nth-child(4) { animation-delay: 0.2s; }
+    .sidebar a:nth-child(5) { animation-delay: 0.25s; }
+    .sidebar a:nth-child(6) { animation-delay: 0.3s; }
+    .sidebar a:nth-child(7) { animation-delay: 0.35s; }
+
+    .sidebar a:hover {
+      background-color: var(--sidebar-hover);
+      transform: translateX(5px);
+    }
+
+    /* Highlight current role */
+    .role-header {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      padding: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+    }
+
+    /* Toggle button */
+    .theme-btn {
+      margin-top: 15px;
+      width: 100%;
+      background: var(--sidebar-hover);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .theme-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+      overflow-y: auto;
+      height: 100vh;
+      transition: 0.3s ease;
+    }
+
+    /* mobile */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-250px);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .content {
+        margin-left: 0;
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+    }
+
+    .toggle-btn {
+      display: none;
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1500;
+      background: var(--sidebar-hover);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    /* Animations */
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+  </style>
+</head>
+
+<body>
+{% if session.get('username') %}
+
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+  <div class="sidebar" id="sidebar">
+
+    <div class="logo-box"></div>
+
+    <div class="role-header">
+      {{ (session.get('role') or 'User')|capitalize }} Panel
+    </div>
+
+    {% set role = session.get('role') %}
+
+    {% if role == 'teacher' %}
+      <a href="{{ url_for('teacher_dashboard') }}">🏠 Dashboard</a>
+      <a href="{{ url_for('student_list') }}">👨‍🎓 Student List</a>
+      <a href="{{ url_for('teacher_assignments') }}">📝 Assignments</a>
+      <a href="{{ url_for('teacher_videos') }}">🎥 Videos</a>
+      <a href="{{ url_for('teacher_resources') }}">📚 Resources</a>
+      <a href="{{ url_for('teacher_forum') }}">💬 Forum</a>
+      <a href="{{ url_for('teacher_placement_list') }}">📌 Placements</a>
+      <a href="{{ url_for('teacher_view_feedbacks') }}">📝 Feedback</a>
+      <a href="{{ url_for('add_student') }}">➕ Add Student</a>
+
+    {% elif role == 'student' %}
+      <a href="{{ url_for('student_dashboard') }}">🏠 Dashboard</a>
+      <a href="{{ url_for('student_assignments') }}">📝 Assignments</a>
+      <a href="{{ url_for('student_videos') }}">🎥 Videos</a>
+      <a href="{{ url_for('student_resources') }}">📚 Resources</a>
+      <a href="{{ url_for('student_forum') }}">💬 Forum</a>
+      <a href="{{ url_for('student_view_placements') }}">📌 View Placements</a>
+      <a href="{{ url_for('student_feedback') }}">📝 Feedback</a>
+    {% endif %}
+
+    <button class="theme-btn" id="theme-toggle">🌙 Dark Mode</button>
+
+    <a href="{{ url_for('logout') }}" class="btn btn-danger w-100 logout-btn">🚪 Logout</a>
+
+  </div>
+{% endif %}
+
+<div class="content {% if not session.get('username') %}w-100{% endif %}">
+  {% block content %}{% endblock %}
+</div>
+
+<script>
+/* MOBILE SIDEBAR */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('show');
+}
+
+/* THEME HANDLING */
+const body = document.body;
+const themeToggle = document.getElementById('theme-toggle');
+
+function applyTheme(theme) {
+  if (theme === "dark") {
+    body.classList.add("dark-mode");
+    themeToggle.textContent = "☀️ Light Mode";
+  } else {
+    body.classList.remove("dark-mode");
+    themeToggle.textContent = "🌙 Dark Mode";
+  }
+}
+
+const savedTheme = localStorage.getItem("theme") || "light";
+applyTheme(savedTheme);
+
+themeToggle.addEventListener("click", () => {
+  const newTheme = body.classList.contains("dark-mode") ? "light" : "dark";
+  localStorage.setItem("theme", newTheme);
+  applyTheme(newTheme);
+});
+</script>
+
+</body>
+</html>
