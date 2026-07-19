@@ -1,0 +1,13 @@
+venv/
+venv.zip
+
+__pycache__/
+*.pyc
+
+instance/
+*.db
+
+static/uploads/
+static/submissions/
+
+.env
